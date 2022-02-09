@@ -1,6 +1,7 @@
 import './App.css';
 import Header from './Header.js';
 import Room from './Room.js';
+// import { Menu } from './Menu.js';
 
 const rooms = [
   {
@@ -26,6 +27,7 @@ const rooms = [
 function App() {
   return (
     <main className="App">
+      {/* {Menu()} */}
       <Header>Happy Cleaning!</Header>
       {rooms.map(({ text, isClean, description, isDescriptionVisible }) => (
         <Room
