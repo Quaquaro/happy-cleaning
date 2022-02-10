@@ -13,6 +13,7 @@ const NavigationContainer = styled.nav`
   display: flex;
   justify-content: center;
   gap: 20px;
+
   button {
     padding: 8px 4px;
   }

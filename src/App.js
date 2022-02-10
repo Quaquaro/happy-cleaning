@@ -2,7 +2,9 @@ import './App.css';
 import Header from './Header.js';
 import Room from './Room.js';
 import Mate from './Mate.js';
+import Navigation from './Navigation.js';
 // import { Menu } from './Menu.js';
+import styled from 'styled-components';
 import { useImmer } from 'use-immer';
 import { useEffect, useState } from 'react';
 
@@ -10,6 +12,9 @@ function App() {
   const [characters, setCharacters] = useState([]);
   const [hasError, setHasError] = useState(false);
   const _ = require('lodash');
+  const [isRoomsVisable, setIsRoomsVisable] = useState(true);
+  const [isMatesVisable, setIsMatesVisable] = useState(false);
+  const [headContent, setHeadContent] = useState('Happy Cleaning');
 
   async function loadCharacters() {
     try {
@@ -64,32 +69,44 @@ function App() {
   }, [rooms]);
 
   return (
-    <main className="App">
+    <AppContainer>
       {/* {Menu()} */}
       {hasError && <p>Error: could not load characters.</p>}
-      <Header>Happy Cleaning!</Header>
-      {rooms.map(
-        ({ text, isClean, description, isDescriptionVisible }, index) => (
-          <Room
-            key={text}
-            text={text}
-            isClean={isClean}
-            description={description}
-            isDescriptionVisible={isDescriptionVisible}
-            toggleStatus={event => {
-              event.stopPropagation();
+      <Header>{headContent}</Header>
+      {isRoomsVisable &&
+        rooms.map(
+          ({ text, isClean, description, isDescriptionVisible }, index) => (
+            <Room
+              key={text}
+              text={text}
+              isClean={isClean}
+              description={description}
+              isDescriptionVisible={isDescriptionVisible}
+              toggleStatus={event => {
+                event.stopPropagation();
 
-              updateRooms(draft => {
-                draft[index].isClean = !isClean;
-              });
-            }}
-          />
-        )
-      )}
-      {characters.map(({ name, id }) => (
-        <Mate key={id} name={name} />
-      ))}
-    </main>
+                updateRooms(draft => {
+                  draft[index].isClean = !isClean;
+                });
+              }}
+            />
+          )
+        )}
+      {isMatesVisable &&
+        characters.map(({ name, id }) => <Mate key={id} name={name} />)}
+      <Navigation
+        showFlatmatesClick={() => {
+          setIsRoomsVisable(false);
+          setIsMatesVisable(true);
+          setHeadContent('Flatmates');
+        }}
+        showRoomsClick={() => {
+          setIsRoomsVisable(true);
+          setIsMatesVisable(false);
+          setHeadContent('Happy Cleaning');
+        }}
+      />
+    </AppContainer>
   );
 
   function loadFromLocal(key) {
@@ -104,5 +121,10 @@ function App() {
     localStorage.setItem(key, JSON.stringify(data));
   }
 }
+
+const AppContainer = styled.main`
+  display: grid;
+  gap: 20px;
+`;
 
 export default App;
