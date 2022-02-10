@@ -42,12 +42,6 @@ function App() {
               updateRooms(draft => {
                 draft[index].isClean = !isClean;
               })
-
-              // setRooms([
-              //   ...rooms.slice(0, index),
-              //   { ...rooms[index], isClean: !isClean },
-              //   ...rooms.slice(index + 1),
-              // ]);
             }}
           />
         )
