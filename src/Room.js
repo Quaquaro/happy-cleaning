@@ -11,7 +11,7 @@ export default function Room({ text, description, isClean, toggleStatus }) {
 
   return (
     <section onClick={handleClick} className="Room">
-      <div class="Room__header">
+      <div className="Room__header">
         {text}
         <button onClick={toggleStatus} className={statusClassName}></button>
       </div>
